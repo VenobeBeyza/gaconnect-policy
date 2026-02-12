@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GAConnect Account Deletion</title>
+  <style>
+    :root { --bg:#f6f7fb; --card:#ffffff; --text:#1f2937; --muted:#4b5563; --line:#e5e7eb; --accent:#b91c1c; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:"Segoe UI",Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+    .wrap { max-width: 900px; margin: 32px auto; padding: 0 16px; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:24px; }
+    h1,h2 { margin:0 0 12px; line-height:1.3; }
+    h1 { font-size:1.9rem; color:var(--accent); }
+    h2 { font-size:1.2rem; margin-top:24px; }
+    p,li,label { color:var(--muted); }
+    ul { padding-left:18px; }
+    .meta { font-size:.92rem; color:#6b7280; margin-top:6px; }
+    .box { background:#fff5f5; border:1px solid #fecaca; border-radius:10px; padding:14px; margin:14px 0; }
+    .btn {
+      display:inline-block; margin-top:10px; padding:10px 16px; border-radius:8px;
+      border:1px solid #b91c1c; color:#fff; background:#b91c1c; text-decoration:none; font-weight:600;
+    }
+    .btn:hover { background:#991b1b; }
+    .field { margin-top:12px; }
+    input, textarea {
+      width:100%; padding:10px; border:1px solid var(--line); border-radius:8px; font:inherit; background:#fff;
+    }
+    .footer { margin-top:24px; font-size:.9rem; color:#6b7280; border-top:1px solid var(--line); padding-top:12px; }
+    a { color:#0b63ce; text-decoration:none; }
+    a:hover { text-decoration:underline; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="card">
+      <h1>GAConnect Account Deletion Request</h1>
+      <p class="meta">Last updated: 2026-02-12</p>
+
+      <p>
+        You can request permanent deletion of your GAConnect account and related data from this page.
+      </p>
+
+      <div class="box">
+        <strong>Important:</strong>
+        Deletion is irreversible. After completion, you may lose access to account-related history and app services.
+      </div>
+
+      <h2>1. Recommended In-App Method</h2>
+      <p>
+        Open GAConnect and use the in-app “Delete Account” flow first. This is the fastest way if you can sign in.
+      </p>
+
+      <h2>2. Web Deletion Request</h2>
+      <p>If you cannot access the app, send a deletion request to the support address below.</p>
+
+      <div class="field">
+        <label for="email"><strong>Account email</strong></label>
+        <input id="email" type="email" placeholder="you@example.com" />
+      </div>
+
+      <div class="field">
+        <label for="reason"><strong>Request details (optional)</strong></label>
+        <textarea id="reason" rows="5" placeholder="I want my account and associated personal data deleted."></textarea>
+      </div>
+
+      <a
+        class="btn"
+        href="mailto:privacy@yourdomain.com?subject=GAConnect%20Account%20Deletion%20Request&body=Hello,%0A%0AI%20request%20deletion%20of%20my%20GAConnect%20account.%0A%0AAccount%20email:%20"
+      >
+        Send Deletion Request
+      </a>
+
+      <h2>3. What Happens Next</h2>
+      <ul>
+        <li>Your request is reviewed to verify account ownership.</li>
+        <li>Your account is deleted from active systems.</li>
+        <li>Some records may be retained only when legally required.</li>
+      </ul>
+
+      <h2>4. Contact</h2>
+      <p>
+        Privacy contact: <a href="mailto:privacy@yourdomain.com">privacy@yourdomain.com</a><br />
+        Related policy: <a href="https://YOUR-DOMAIN/privacy.html">Privacy Policy</a>
+      </p>
+
+      <div class="footer">
+        Replace placeholder links and email before publishing.
+      </div>
+    </section>
+  </main>
+</body>
+</html>
