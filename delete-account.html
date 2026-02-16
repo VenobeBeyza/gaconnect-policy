@@ -3,91 +3,597 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>GAConnect Account Deletion</title>
+  <title>GAConnect — Hesap Silme Talebi</title>
+
   <style>
-    :root { --bg:#f6f7fb; --card:#ffffff; --text:#1f2937; --muted:#4b5563; --line:#e5e7eb; --accent:#b91c1c; }
-    * { box-sizing: border-box; }
-    body { margin:0; font-family:"Segoe UI",Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
-    .wrap { max-width: 900px; margin: 32px auto; padding: 0 16px; }
-    .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:24px; }
-    h1,h2 { margin:0 0 12px; line-height:1.3; }
-    h1 { font-size:1.9rem; color:var(--accent); }
-    h2 { font-size:1.2rem; margin-top:24px; }
-    p,li,label { color:var(--muted); }
-    ul { padding-left:18px; }
-    .meta { font-size:.92rem; color:#6b7280; margin-top:6px; }
-    .box { background:#fff5f5; border:1px solid #fecaca; border-radius:10px; padding:14px; margin:14px 0; }
-    .btn {
-      display:inline-block; margin-top:10px; padding:10px 16px; border-radius:8px;
-      border:1px solid #b91c1c; color:#fff; background:#b91c1c; text-decoration:none; font-weight:600;
+    :root{
+      /* App teması (ekrandaki mavi header hissi) */
+      --primary-900:#163a9c;
+      --primary-800:#1c46b8;
+      --primary-700:#2a56d6;
+      --primary-600:#3569ff;
+      --primary-100:#eaf1ff;
+
+      --bg:#f3f6fb;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#475569;
+      --line:#e6edf7;
+
+      --danger:#b91c1c;
+      --danger-600:#dc2626;
+      --success:#16a34a;
+
+      --shadow: 0 14px 40px rgba(15, 23, 42, .10);
+      --shadow-soft: 0 10px 25px rgba(15, 23, 42, .08);
+
+      --radius-xl: 18px;
+      --radius-lg: 14px;
+      --radius-md: 12px;
+
+      --ring: 0 0 0 4px rgba(53,105,255,.18);
+
+      --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
     }
-    .btn:hover { background:#991b1b; }
-    .field { margin-top:12px; }
-    input, textarea {
-      width:100%; padding:10px; border:1px solid var(--line); border-radius:8px; font:inherit; background:#fff;
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family:var(--font);
+      background:
+        radial-gradient(1200px 400px at 50% -120px, rgba(53,105,255,.18), transparent 60%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.55;
     }
-    .footer { margin-top:24px; font-size:.9rem; color:#6b7280; border-top:1px solid var(--line); padding-top:12px; }
-    a { color:#0b63ce; text-decoration:none; }
-    a:hover { text-decoration:underline; }
+
+    /* Top header (app ile aynı his) */
+    .topbar{
+      background: linear-gradient(90deg, var(--primary-800), var(--primary-700));
+      color:#fff;
+      padding: 28px 0 74px;
+      position: relative;
+      overflow:hidden;
+    }
+    .topbar:before{
+      content:"";
+      position:absolute;
+      inset:-40% -20% auto -20%;
+      height:240px;
+      background: radial-gradient(closest-side, rgba(255,255,255,.22), transparent 70%);
+      transform: rotate(-6deg);
+      pointer-events:none;
+    }
+
+    .container{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 18px;
+    }
+
+    .brandrow{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      min-width: 0;
+    }
+    .logo{
+      width:44px;height:44px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.20);
+      display:grid;
+      place-items:center;
+      box-shadow: 0 10px 20px rgba(0,0,0,.12);
+      flex: 0 0 auto;
+    }
+    .logo svg{ opacity:.95; }
+    .brand h1{
+      margin:0;
+      font-size: 20px;
+      font-weight: 750;
+      letter-spacing: .2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .brand .sub{
+      margin: 4px 0 0;
+      font-size: 13px;
+      opacity:.88;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.20);
+      color:#fff;
+      text-decoration:none;
+      font-weight: 650;
+      font-size: 13px;
+      box-shadow: 0 10px 18px rgba(0,0,0,.10);
+      transition: transform .12s ease, background .12s ease;
+      flex: 0 0 auto;
+    }
+    .pill:hover{ transform: translateY(-1px); background: rgba(255,255,255,.18); }
+
+    /* Content card */
+    .page{
+      margin-top: -54px;
+      padding-bottom: 44px;
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .cardhead{
+      padding: 22px 22px 0;
+      display:flex;
+      flex-wrap:wrap;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 14px;
+    }
+    .titleblock h2{
+      margin:0;
+      font-size: 24px;
+      letter-spacing: .2px;
+      font-weight: 800;
+    }
+    .titleblock p{
+      margin: 8px 0 0;
+      color: var(--muted);
+      max-width: 64ch;
+    }
+    .meta{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: #f7faff;
+      border: 1px solid var(--line);
+      color: #52607a;
+      font-size: 12.5px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .content{
+      padding: 18px 22px 22px;
+    }
+
+    .alert{
+      display:flex;
+      gap: 12px;
+      align-items:flex-start;
+      background: #fff5f5;
+      border: 1px solid #fecaca;
+      border-radius: var(--radius-lg);
+      padding: 14px 14px;
+      box-shadow: var(--shadow-soft);
+      margin: 14px 0 18px;
+    }
+    .alert .badge{
+      width:34px;height:34px;
+      border-radius: 12px;
+      display:grid;
+      place-items:center;
+      background: rgba(220,38,38,.12);
+      border: 1px solid rgba(220,38,38,.22);
+      flex: 0 0 auto;
+    }
+    .alert strong{ display:block; }
+    .alert p{ margin: 4px 0 0; color:#6b7280; }
+
+    /* Steps */
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-top: 10px;
+    }
+    @media (min-width: 860px){
+      .grid{ grid-template-columns: 1.1fr .9fr; }
+    }
+
+    .step{
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: linear-gradient(180deg, #ffffff, #fbfdff);
+      box-shadow: var(--shadow-soft);
+      padding: 16px 16px;
+    }
+    .stephead{
+      display:flex;
+      align-items:flex-start;
+      gap: 12px;
+    }
+    .stepnum{
+      width:40px;height:40px;
+      border-radius: 14px;
+      display:grid;
+      place-items:center;
+      background: var(--primary-100);
+      border: 1px solid rgba(53,105,255,.20);
+      color: var(--primary-800);
+      font-weight: 850;
+      flex: 0 0 auto;
+    }
+    .step h3{
+      margin: 2px 0 0;
+      font-size: 16px;
+      font-weight: 820;
+      letter-spacing: .1px;
+    }
+    .step p, .step li{ color: var(--muted); }
+    .step p{ margin: 8px 0 0; }
+
+    /* Form */
+    .form{
+      margin-top: 12px;
+      display:grid;
+      gap: 12px;
+    }
+    label{
+      display:block;
+      font-size: 13px;
+      font-weight: 750;
+      color: #2b3446;
+      margin-bottom: 6px;
+    }
+    .field{
+      background:#fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 12px;
+      transition: box-shadow .12s ease, border-color .12s ease;
+    }
+    .field:focus-within{
+      border-color: rgba(53,105,255,.45);
+      box-shadow: var(--ring);
+    }
+    input, textarea{
+      width:100%;
+      border:0;
+      outline:0;
+      font: inherit;
+      background: transparent;
+      color: var(--text);
+      padding: 2px 0;
+    }
+    input::placeholder, textarea::placeholder{ color:#94a3b8; }
+
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      align-items:center;
+      margin-top: 10px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding: 12px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(53,105,255,.22);
+      background: rgba(53,105,255,.10);
+      color: var(--primary-800);
+      text-decoration:none;
+      font-weight: 800;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      cursor:pointer;
+      user-select:none;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(53,105,255,.14); border-color: rgba(53,105,255,.30); }
+
+    .btn-primary{
+      border-color: rgba(28,70,184,.28);
+      background: linear-gradient(180deg, var(--primary-600), var(--primary-700));
+      color:#fff;
+      box-shadow: 0 12px 24px rgba(28,70,184,.24);
+    }
+    .btn-primary:hover{ background: linear-gradient(180deg, #2e62ff, var(--primary-800)); }
+
+    .btn-danger{
+      border-color: rgba(220,38,38,.28);
+      background: rgba(220,38,38,.10);
+      color: var(--danger);
+    }
+
+    .hint{
+      font-size: 12.5px;
+      color:#64748b;
+      margin-top: 6px;
+    }
+
+    .kicker{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      padding: 12px 14px;
+      border: 1px dashed rgba(53,105,255,.35);
+      background: rgba(234,241,255,.55);
+      border-radius: var(--radius-lg);
+      margin-top: 12px;
+      color:#3b4a68;
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    /* Footer */
+    .footer{
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      color:#64748b;
+      font-size: 12.5px;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .links a{
+      color: var(--primary-800);
+      font-weight: 700;
+      text-decoration:none;
+    }
+    .links a:hover{ text-decoration: underline; }
+
+    /* Small niceties */
+    .icon{ width:18px;height:18px; display:inline-block; }
+    .sr-only{
+      position:absolute;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;
+      clip:rect(0,0,0,0);
+      white-space:nowrap;
+      border:0;
+    }
   </style>
 </head>
+
 <body>
-  <main class="wrap">
-    <section class="card">
-      <h1>GAConnect Account Deletion Request</h1>
-      <p class="meta">Last updated: 2026-02-12</p>
 
-      <p>
-        You can request permanent deletion of your GAConnect account and related data from this page.
-      </p>
+  <header class="topbar">
+    <div class="container">
+      <div class="brandrow">
+        <div class="brand">
+          <div class="logo" aria-hidden="true">
+            <!-- Basit GA ikonu (istersen gerçek logoyla değiştir) -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M6 14.5c0-4.2 3-7.5 6.8-7.5 2.8 0 5.1 1.7 6.2 4.2" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              <path d="M6 14.5c0 2.6 2.2 4.8 4.8 4.8 1.6 0 3-.8 3.9-2" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              <path d="M19 11.2l-.7 6.6" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div style="min-width:0">
+            <h1>GAConnect</h1>
+            <p class="sub">Industrial Gateway • Hesap & Veri Silme Talebi</p>
+          </div>
+        </div>
 
-      <div class="box">
-        <strong>Important:</strong>
-        Deletion is irreversible. After completion, you may lose access to account-related history and app services.
+        <a class="pill" href="#request">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 6v6l4 2" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="white" stroke-width="2"/>
+          </svg>
+          Talep Oluştur
+        </a>
       </div>
+    </div>
+  </header>
 
-      <h2>1. Recommended In-App Method</h2>
-      <p>
-        Open GAConnect and use the in-app “Delete Account” flow first. This is the fastest way if you can sign in.
-      </p>
+  <main class="page">
+    <div class="container">
+      <section class="card" aria-label="GAConnect hesap silme">
+        <div class="cardhead">
+          <div class="titleblock">
+            <h2>Hesap Silme Talebi</h2>
+            <p>
+              Bu sayfadan GAConnect hesabınızın ve ilişkili kişisel verilerinizin kalıcı olarak silinmesini talep edebilirsiniz.
+            </p>
+          </div>
+          <div class="meta" title="Sayfa güncelleme tarihi">
+            <span aria-hidden="true">🗓️</span>
+            Son güncelleme: 2026-02-12
+          </div>
+        </div>
 
-      <h2>2. Web Deletion Request</h2>
-      <p>If you cannot access the app, send a deletion request to the support address below.</p>
+        <div class="content">
 
-      <div class="field">
-        <label for="email"><strong>Account email</strong></label>
-        <input id="email" type="email" placeholder="you@example.com" />
-      </div>
+          <div class="alert" role="note" aria-label="Önemli uyarı">
+            <div class="badge" aria-hidden="true">
+              <svg class="icon" viewBox="0 0 24 24" fill="none">
+                <path d="M12 9v5" stroke="#dc2626" stroke-width="2" stroke-linecap="round"/>
+                <path d="M12 17.5h.01" stroke="#dc2626" stroke-width="3" stroke-linecap="round"/>
+                <path d="M10.3 4.7 2.6 18.1A2 2 0 0 0 4.3 21h15.4a2 2 0 0 0 1.7-2.9L13.7 4.7a2 2 0 0 0-3.4 0Z" stroke="#dc2626" stroke-width="2" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div>
+              <strong>Önemli:</strong>
+              <p>Silme işlemi geri alınamaz. Tamamlandığında hesap geçmişi ve uygulama servislerine erişiminiz kalıcı olarak sona erebilir.</p>
+            </div>
+          </div>
 
-      <div class="field">
-        <label for="reason"><strong>Request details (optional)</strong></label>
-        <textarea id="reason" rows="5" placeholder="I want my account and associated personal data deleted."></textarea>
-      </div>
+          <div class="grid">
+            <!-- Sol kolon: adımlar -->
+            <div class="step">
+              <div class="stephead">
+                <div class="stepnum">1</div>
+                <div>
+                  <h3>Uygulama Üzerinden (Önerilen)</h3>
+                  <p>
+                    Hesabınıza giriş yapabiliyorsanız en hızlı yöntem uygulama içindeki <strong>“Hesabı Sil”</strong> akışını kullanmaktır.
+                  </p>
 
-      <a
-        class="btn"
-        href="mailto:privacy@yourdomain.com?subject=GAConnect%20Account%20Deletion%20Request&body=Hello,%0A%0AI%20request%20deletion%20of%20my%20GAConnect%20account.%0A%0AAccount%20email:%20"
-      >
-        Send Deletion Request
-      </a>
+                  <div class="kicker">
+                    <span aria-hidden="true">ℹ️</span>
+                    Uygulamada giriş açıksa kimlik doğrulama daha hızlı tamamlanır.
+                  </div>
+                </div>
+              </div>
+            </div>
 
-      <h2>3. What Happens Next</h2>
-      <ul>
-        <li>Your request is reviewed to verify account ownership.</li>
-        <li>Your account is deleted from active systems.</li>
-        <li>Some records may be retained only when legally required.</li>
-      </ul>
+            <!-- Sağ kolon: web talep -->
+            <div class="step" id="request">
+              <div class="stephead">
+                <div class="stepnum">2</div>
+                <div>
+                  <h3>Web Üzerinden Silme Talebi</h3>
+                  <p>
+                    Uygulamaya erişemiyorsanız aşağıdaki formu doldurun ve e-posta ile talep gönderin.
+                  </p>
 
-      <h2>4. Contact</h2>
-      <p>
-        Privacy contact: <a href="mailto:privacy@yourdomain.com">privacy@yourdomain.com</a><br />
-        Related policy: <a href="https://YOUR-DOMAIN/privacy.html">Privacy Policy</a>
-      </p>
+                  <form class="form" onsubmit="return false;">
+                    <div>
+                      <label for="email">Hesap e-postası</label>
+                      <div class="field">
+                        <input id="email" type="email" placeholder="you@example.com" autocomplete="email" />
+                      </div>
+                      <div class="hint">Bu bilgi hesap sahipliğini doğrulamak için kullanılır.</div>
+                    </div>
 
-      <div class="footer">
-        Replace placeholder links and email before publishing.
-      </div>
-    </section>
+                    <div>
+                      <label for="reason">Talep detayı (opsiyonel)</label>
+                      <div class="field">
+                        <textarea id="reason" rows="5" placeholder="GAConnect hesabımın ve ilişkili kişisel verilerimin silinmesini talep ediyorum."></textarea>
+                      </div>
+                    </div>
+
+                    <div class="actions">
+                      <!-- TODO: gerçek mail adresini yaz -->
+                      <a class="btn btn-primary" id="mailtoBtn" href="mailto:privacy@yourdomain.com">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                          <path d="M4 8l8 5 8-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M20 6H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+                        </svg>
+                        Silme Talebi Gönder
+                      </a>
+
+                      <button class="btn btn-danger" type="button" id="clearBtn">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                          <path d="M6 7h12" stroke="#b91c1c" stroke-width="2" stroke-linecap="round"/>
+                          <path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" stroke="#b91c1c" stroke-width="2" stroke-linecap="round"/>
+                          <path d="M8 7l1 14h6l1-14" stroke="#b91c1c" stroke-width="2" stroke-linejoin="round"/>
+                        </svg>
+                        Formu Temizle
+                      </button>
+                    </div>
+
+                    <div class="hint">
+                      Buton, varsayılan e-posta istemcinizi açar ve form bilgilerini mesaja ekler.
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="step" style="margin-top:14px;">
+            <div class="stephead">
+              <div class="stepnum">3</div>
+              <div>
+                <h3>Sonraki Süreç</h3>
+                <ul>
+                  <li>Talebiniz hesap sahipliğini doğrulamak için incelenir.</li>
+                  <li>Hesabınız aktif sistemlerden silinir.</li>
+                  <li>Yalnızca yasal zorunluluklar kapsamında sınırlı kayıtlar saklanabilir.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer">
+            <div class="links">
+              <!-- TODO: gerçek linkleri yaz -->
+              <span>İletişim: <a href="mailto:privacy@yourdomain.com">privacy@yourdomain.com</a></span>
+              <span style="margin-left:10px;">•</span>
+              <span style="margin-left:10px;">Politika: <a href="https://YOUR-DOMAIN/privacy.html">Gizlilik Politikası</a></span>
+            </div>
+            <div>© GAConnect</div>
+          </div>
+
+          <p class="hint" style="margin-top:12px;">
+            <strong>Not:</strong> Yayına almadan önce <em>privacy@yourdomain.com</em> ve gizlilik politikası bağlantısını gerçek değerlerle değiştirin.
+          </p>
+
+        </div>
+      </section>
+    </div>
   </main>
+
+  <script>
+    // Mailto’yu form verisiyle otomatik doldur (profesyonel UX)
+    const SUPPORT_EMAIL = "privacy@yourdomain.com"; // TODO: değiştir
+    const SUBJECT = "GAConnect Hesap Silme Talebi";
+
+    const emailEl  = document.getElementById("email");
+    const reasonEl = document.getElementById("reason");
+    const mailtoBtn = document.getElementById("mailtoBtn");
+    const clearBtn = document.getElementById("clearBtn");
+
+    function buildMailto(){
+      const accountEmail = (emailEl.value || "").trim();
+      const details = (reasonEl.value || "").trim();
+
+      const bodyLines = [
+        "Merhaba,",
+        "",
+        "GAConnect hesabımın ve ilişkili kişisel verilerimin kalıcı olarak silinmesini talep ediyorum.",
+        "",
+        "Hesap e-postası: " + (accountEmail || "[buraya e-posta yazın]"),
+        details ? "" : "",
+        details ? "Talep detayı:" : "",
+        details ? details : "",
+        "",
+        "Teşekkürler."
+      ].filter(Boolean);
+
+      const href =
+        "mailto:" + encodeURIComponent(SUPPORT_EMAIL) +
+        "?subject=" + encodeURIComponent(SUBJECT) +
+        "&body=" + encodeURIComponent(bodyLines.join("\n"));
+
+      mailtoBtn.setAttribute("href", href);
+    }
+
+    emailEl.addEventListener("input", buildMailto);
+    reasonEl.addEventListener("input", buildMailto);
+
+    clearBtn.addEventListener("click", () => {
+      emailEl.value = "";
+      reasonEl.value = "";
+      buildMailto();
+      emailEl.focus();
+    });
+
+    // İlk yüklemede hazırla
+    buildMailto();
+  </script>
 </body>
 </html>
